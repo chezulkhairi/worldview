@@ -165,6 +165,7 @@
     "jscrollpane": "^2.0.22",
     "lodash": "^4.15.0",
     "nouislider": "7.0.10",
+    "npm": "^6.4.1",
     "ol": "^5.2.0",
     "perfect-scrollbar": "^0.8.1",
     "proj4": "2.3.3",
