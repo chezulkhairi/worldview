@@ -1,4 +1,5 @@
 import React from 'react';
+import Toolbar from './components/toolbar/toolbar';
 
 import 'babel-polyfill'; // Needed for worldview-components in IE and older browsers
 import lodashEach from 'lodash/each';
@@ -95,7 +96,7 @@ import { compareModel } from './compare/model';
 // Other
 import { debugConfig, debugLayers } from './debug';
 import Brand from './brand';
-import tour from './tour';
+import { tourUi } from './tour/ui';
 import { uiInfo } from './ui/info';
 
 // Dependency CSS
@@ -165,15 +166,7 @@ class App extends React.Component {
   render() {
     return (
       <div data-role="content">
-        <ul id="wv-toolbar">
-          <li id="wv-link-button" className="wv-toolbar-button" />
-          <li id="wv-proj-button" className="wv-toolbar-button" />
-          <li id="wv-image-button" className="wv-toolbar-button" />
-          <li
-            id="wv-info-button"
-            className="wv-toolbar-button wv-status-hide"
-          />
-        </ul>
+        <Toolbar />
         <section id="wv-sidebar" />
         <div id="wv-map" className="wv-map" />
         <div id="eventsHolder" />
@@ -432,7 +425,7 @@ class App extends React.Component {
       elapsed('ui');
       // Create widgets
       ui.proj = projectionUi(models, config);
-      ui.tour = tour(models, ui, config);
+      ui.tour = tourUi(models, ui, config);
       ui.sidebar = sidebarUi(models, config, ui);
       ui.activeLayers = layersActive(models, ui, config);
       ui.addModal = layersModal(models, ui, config);
