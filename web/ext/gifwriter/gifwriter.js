@@ -65,8 +65,14 @@ export default class gifWriter {
     buf[p++] = height & 0xff;
     buf[p++] = height >> 8 & 0xff;
     // NOTE: Indicates 0-bpp original color resolution (unused?).
-    buf[p++] = (global_palette !== null ? 0x80 : 0) | // Global Color Table Flag.
-    gp_num_colors_pow2; // NOTE: No sort flag (unused?).
+    // buf[p++] = (global_palette !== null ? 0x80 : 0) | // Global Color Table Flag.
+    // gp_num_colors_pow2; // NOTE: No sort flag (unused?).
+
+    // reference blocks:
+    // http://www.matthewflickinger.com/lab/whatsinagif/bits_and_bytes.asp
+    //  https://www.w3.org/Graphics/GIF/spec-gif87.txt
+
+    buf[p++] = 0x7F; // 8 bit and 8 color
     buf[p++] = background; // Background Color Index.
     buf[p++] = 0; // Pixel aspect ratio (unused?).
 
@@ -99,7 +105,7 @@ export default class gifWriter {
     }
     var self = this;
     var reader = rs.getReader();
-
+    console.log([].map.call(buf, x => x.toString(16)));
     return new ReadableStream({
       start: function start(controller) {
         controller.enqueue(buf);
