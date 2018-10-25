@@ -1,6 +1,6 @@
 const environments = require('./environments.js');
 const glob = require('glob');
-const files = glob.sync('./e2e/features/**/*-test.js');
+const files = glob.sync('./e2e/features/compare/layer-picker-test.js');
 const nightwatchConfig = {
   output_folder: 'e2e/reports',
   globals_path: 'e2e/globals.js',
@@ -16,7 +16,7 @@ const nightwatchConfig = {
     'browserstack.key': process.env.BROWSERSTACK_ACCESS_KEY,
     'browserstack.local': true,
     'browserstack.debug': true,
-    'build': 'nightwatch-browserstack',
+    build: 'nightwatch-browserstack',
     applicationCacheEnabled: false,
     webStorageEnabled: false,
     marionette: true
@@ -25,7 +25,7 @@ const nightwatchConfig = {
     default: {},
     browserstack: {
       desiredCapabilities: {
-        'browser': 'chrome'
+        browser: 'chrome'
       }
     },
     chrome: {
@@ -58,17 +58,14 @@ const nightwatchConfig = {
         'browserstack.selenium_version': '2.53.0'
       }
     }
-
   }
 };
 
 environments.forEach(e => {
-  var env = [
-    e.browser,
-    e.browser_version,
-    e.os,
-    e.os_version
-  ].join('_').replace(/\./g, '-').replace(/ /g, '_');
+  var env = [e.browser, e.browser_version, e.os, e.os_version]
+    .join('_')
+    .replace(/\./g, '-')
+    .replace(/ /g, '_');
   nightwatchConfig.test_settings[env] = { desiredCapabilities: e };
 });
 
@@ -79,7 +76,9 @@ for (var i in nightwatchConfig.test_settings) {
   config['selenium_port'] = nightwatchConfig.selenium.port;
   config['desiredCapabilities'] = config['desiredCapabilities'] || {};
   for (var j in nightwatchConfig.common_capabilities) {
-    config['desiredCapabilities'][j] = config['desiredCapabilities'][j] || nightwatchConfig.common_capabilities[j];
+    config['desiredCapabilities'][j] =
+      config['desiredCapabilities'][j] ||
+      nightwatchConfig.common_capabilities[j];
   }
 }
 module.exports = nightwatchConfig;

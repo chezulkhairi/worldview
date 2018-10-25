@@ -26,13 +26,17 @@ export function layersModal(models, ui, config) {
     model.events.on('remove', onLayerAddRemove).on('add', onLayerAddRemove);
     if (models.compare) {
       models.compare.events.on('change', () => {
-        self.reactList.setState({ activeLayers: model[model.activeLayers] });
+        self.reactList.setState({
+          activeLayers: model[model.activeLayers],
+          listType: 'category'
+        });
       });
     }
     models.proj.events.on('select', () => {
       self.reactList.setState({
         selectedProjection: models.proj.selected.id,
-        allLayers: getLayersForProjection(models.proj.selected.id)
+        allLayers: getLayersForProjection(models.proj.selected.id),
+        listType: 'category'
       });
     });
 
@@ -43,7 +47,7 @@ export function layersModal(models, ui, config) {
     return {
       addLayer: layerId => model.add(layerId, {}),
       removeLayer: layerId => model.remove(layerId),
-      allLayers: getLayersForProjection(models.proj.selected.id),
+      allLayers: getLayersForProjection(proj),
       activeLayers: model[model.activeLayers],
       selectedProjection: proj,
       filterProjections: filterProjections,
